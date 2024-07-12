@@ -4,6 +4,7 @@ import { ProductModel } from '../entities/product.model';
 import { Prisma } from '@prisma/client';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { FindProductsDto } from '../dto/find-product.dto';
+import { GrpcMethod } from '@nestjs/microservices';
 
 @Injectable()
 export class ProductsService {
@@ -51,5 +52,21 @@ export class ProductsService {
     }
 
     return this.productsRepository.delete({ id });
+  }
+
+  @GrpcMethod('ProductService', 'CheckProductAvailability')
+  async checkProductAvailability(data: {
+    productId: number;
+    quantity: number;
+  }): Promise<{ available: boolean }> {
+    const product = await this.productsRepository.findOneOrNull({
+      id: data?.productId,
+    });
+
+    const entityProduct = product?.getEntity();
+
+    return {
+      available: entityProduct && entityProduct.quantity >= data.quantity,
+    };
   }
 }
