@@ -73,7 +73,8 @@ A Postman collection is provided to test the REST API exposed by the API Gateway
 4. **System Architecture**
 The system is designed with the following architecture:
 
-![Infrastructure Diagram](img/infra.png)
+![infra](https://github.com/user-attachments/assets/ac3fe171-b346-4ae2-85bb-d8235854a157)
+
 
 5. **API Gateway (Golang)**
 
