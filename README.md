@@ -38,7 +38,7 @@ This project is designed to assess the proficiency in designing and implementing
 
 An overview of the microservices architecture used in this project is provided below. The architecture includes `orders-service`, `products-service`, and `api-gateway`:
 
-![Infrastructure Diagram](https://drive.google.com/file/d/1QpokoBSSLSwjrb_Hw2KySH3dywJheQ_3/view?usp=sharing)
+![infra](https://github.com/user-attachments/assets/ac3fe171-b346-4ae2-85bb-d8235854a157)
 
 ## Improvements/TODOs
 
@@ -70,13 +70,7 @@ This command will build and start the orders-service, products-service, api-gate
 3. **Postman Collection**
 A Postman collection is provided to test the REST API exposed by the API Gateway. Import the collection into Postman to use it.
 
-4. **System Architecture**
-The system is designed with the following architecture:
-
-![infra](https://github.com/user-attachments/assets/ac3fe171-b346-4ae2-85bb-d8235854a157)
-
-
-5. **API Gateway (Golang)**
+4. **API Gateway (Golang)**
 
 - Exposes REST endpoints for the Product and Order services.
 - Secures endpoints with JWT authentication.
