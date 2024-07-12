@@ -1,7 +1,8 @@
 import { DatabaseService } from '@/shared/services/database.service';
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Product } from '@prisma/client';
 import { ProductModel } from '../entities/product.model';
+import { FindProductsDto } from '../dto/find-product.dto';
 
 @Injectable()
 export class ProductsRepository {
@@ -31,12 +32,30 @@ export class ProductsRepository {
     return new ProductModel(product);
   }
 
-  async findMany(params: Prisma.ProductWhereInput): Promise<ProductModel[]> {
-    const products = await this.database.product.findMany({
-      where: params,
-    });
+  async findMany(
+    query: FindProductsDto,
+  ): Promise<{ data: Product[]; total: number }> {
+    const { name, description, minPrice, maxPrice, limit, orderBy } = query;
 
-    return products.map((product) => new ProductModel(product));
+    const where = {
+      name: name ? { contains: name } : undefined,
+      description: description ? { contains: description } : undefined,
+      price: {
+        gte: minPrice ?? undefined,
+        lte: maxPrice ?? undefined,
+      },
+    };
+
+    const [total, data] = await Promise.all([
+      this.database.product.count({ where }),
+      this.database.product.findMany({
+        where,
+        take: limit ?? 50,
+        orderBy: orderBy ? { [orderBy]: 'asc' } : undefined,
+      }),
+    ]);
+
+    return { data, total };
   }
 
   async update(

@@ -37,7 +37,7 @@ export class ProductModel {
   }
 
   public getEntity() {
-    return this.entity;
+    return { ...this.entity };
   }
 
   public getUuid() {

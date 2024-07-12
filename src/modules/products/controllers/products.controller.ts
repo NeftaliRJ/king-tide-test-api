@@ -6,37 +6,57 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { ProductUseCase } from '../use-cases/product.use-case';
+import { FindProductsDto } from '../dto/find-product.dto';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsUseCase: ProductUseCase) {}
 
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsUseCase.createProduct(createProductDto);
+  async create(@Body() createProductDto: CreateProductDto) {
+    const product = await this.productsUseCase.createProduct(createProductDto);
+    return {
+      data: product,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.productsUseCase.findAllProducts({});
+  findAll(@Query() query: FindProductsDto) {
+    return this.productsUseCase.findAllProducts(query);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsUseCase.findOneProduct(+id);
+  async findOne(@Param('id') id: string) {
+    const product = await this.productsUseCase.findOneProduct(+id);
+    return {
+      data: product,
+    };
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsUseCase.updateProduct(+id, updateProductDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
+    const product = await this.productsUseCase.updateProduct(
+      +id,
+      updateProductDto,
+    );
+    return {
+      data: product,
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsUseCase.removeProduct(+id);
+  async remove(@Param('id') id: string) {
+    const product = await this.productsUseCase.removeProduct(+id);
+    return {
+      data: product,
+    };
   }
 }
