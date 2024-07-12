@@ -1,0 +1,860 @@
+{
+	"info": {
+		"_postman_id": "f389fcd1-7049-44e9-b630-03a2445b22ee",
+		"name": "King Tide Test Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32812978"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"const product = response.data;",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Response has valid product data\", function () {",
+									"    pm.expect(product).to.have.property(\"name\").that.is.a(\"string\");",
+									"    pm.expect(product).to.have.property(\"description\").that.is.a(\"string\");",
+									"    pm.expect(product).to.have.property(\"price\").that.is.a(\"number\");",
+									"    pm.expect(product).to.have.property(\"quantity\").that.is.a(\"number\");",
+									"});",
+									"",
+									"if (product.id) {",
+									"    pm.environment.set(\"createdProductId\", product.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"description\": \"{{$randomJobDescriptor}}\",\n    \"price\": \"{{$randomPrice}}\",\n    \"quantity\": \"{{$randomInt}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PRODUCT_API}}/products",
+							"host": [
+								"{{PRODUCT_API}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"description\": \"{{$randomJobDescriptor}}\",\n    \"price\": \"{{$randomPrice}}\",\n    \"quantity\": \"{{$randomInt}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/products",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "139"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8b-s13ibYE6rx+/zpoOg+mmsJd8vxY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Jul 2024 11:53:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"uuid\": \"1a7f3ceb-379d-4ac7-a42f-fcff0076fd97\",\n        \"name\": \"Sleek Metal Tuna\",\n        \"description\": \"Lead\",\n        \"price\": 891.97,\n        \"quantity\": 36,\n        \"id\": 3\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "GetById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"const product = response.data;",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has valid product data\", function () {",
+									"    pm.expect(product).to.have.property(\"name\").that.is.a(\"string\");",
+									"    pm.expect(product).to.have.property(\"description\").that.is.a(\"string\");",
+									"    pm.expect(product).to.have.property(\"price\").that.is.a(\"number\");",
+									"    pm.expect(product).to.have.property(\"quantity\").that.is.a(\"number\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCT_API}}/products/:id",
+							"host": [
+								"{{PRODUCT_API}}"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{createdProductId}}",
+									"description": "you can use the last product created with {{createdProductId}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/products/:id",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{createdProductId}}",
+											"description": "you can use the last product created with {{createdProductId}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "152"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"98-+adBHutqYtrMOG9fzhDX+xIeK6U\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Jul 2024 12:01:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"uuid\": \"c4d77fd7-df83-4bbe-8e6c-99eb8e6efed8\",\n        \"id\": 2,\n        \"name\": \"Gorgeous Cotton Keyboard\",\n        \"description\": \"Regional\",\n        \"price\": 156.89,\n        \"quantity\": 148\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();",
+									"const product = response.data;",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response has valid product data\", function () {",
+									"    pm.expect(product).to.have.property(\"name\").that.is.a(\"string\");",
+									"    pm.expect(product).to.have.property(\"description\").that.is.a(\"string\");",
+									"    pm.expect(product).to.have.property(\"price\").that.is.a(\"number\");",
+									"    pm.expect(product).to.have.property(\"quantity\").that.is.a(\"number\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"description\": \"{{$randomJobDescriptor}}\",\n    \"price\": \"{{$randomPrice}}\",\n    \"quantity\": \"{{$randomInt}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PRODUCT_API}}/products/:id",
+							"host": [
+								"{{PRODUCT_API}}"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{createdProductId}}",
+									"description": "you can use the last product created with {{createdProductId}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successfully",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"description\": \"{{$randomJobDescriptor}}\",\n    \"price\": \"{{$randomPrice}}\",\n    \"quantity\": \"{{$randomInt}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/products/:id",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{createdProductId}}",
+											"description": "you can use the last product created with {{createdProductId}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "146"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"92-+Ur7hcRDI8Goi2pYt288BxHEa2E\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Jul 2024 12:12:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"uuid\": \"c4d77fd7-df83-4bbe-8e6c-99eb8e6efed8\",\n        \"id\": 2,\n        \"name\": \"Refined Fresh Cheese\",\n        \"description\": \"Global\",\n        \"price\": 425.18,\n        \"quantity\": 387\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCT_API}}/products/:id",
+							"host": [
+								"{{PRODUCT_API}}"
+							],
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{createdProductId}}",
+									"description": "you can use the last product created with {{createdProductId}}"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successfully",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/products/:id",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "{{createdProductId}}",
+											"description": "you can use the last product created with {{createdProductId}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "140"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8c-ZZ3M6U/b0h0e0k91YQxceymEpYY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Jul 2024 12:15:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"uuid\": \"c4d77fd7-df83-4bbe-8e6c-99eb8e6efed8\",\n    \"name\": \"Generic Concrete Bike\",\n    \"description\": \"Internal\",\n    \"price\": 341.22,\n    \"quantity\": 545\n}"
+						}
+					]
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PRODUCT_API}}/products",
+							"host": [
+								"{{PRODUCT_API}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Sleek Cotton Shoes",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/products?name=Sleek Cotton Shoes",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "Sleek Cotton Shoes"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "155"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"9b-0GN6HsjYFoX2kFApN1/ApJEwOIg\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Jul 2024 12:39:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"uuid\": \"67f6f328-6de7-4c70-a71c-ee716e96b838\",\n            \"name\": \"Sleek Cotton Shoes\",\n            \"description\": \"Direct\",\n            \"price\": 12.29,\n            \"quantity\": 370\n        }\n    ],\n    \"total\": 1\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"items\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 2\n        },\n        {\n            \"productId\": 3,\n            \"quantity\": 3\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ORDER_API}}/orders",
+							"host": [
+								"{{ORDER_API}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"items\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 2\n        },\n        {\n            \"productId\": 3,\n            \"quantity\": 3\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/orders",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "877"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"36d-Uf/TZRN5IEpUO1dxtr6S1EICtIA\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Jul 2024 13:09:11 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"uuid\": \"2619e0e7-dc3c-40bd-991e-d9424e807251\",\n    \"createdAt\": \"2024-07-12T13:09:11.178Z\",\n    \"updatedAt\": \"2024-07-12T13:09:11.178Z\",\n    \"deleteAt\": null,\n    \"orderItems\": [\n        {\n            \"id\": 1,\n            \"quantity\": 3,\n            \"productId\": 3,\n            \"orderId\": 1,\n            \"createdAt\": \"2024-07-12T13:09:11.178Z\",\n            \"updatedAt\": \"2024-07-12T13:09:11.178Z\",\n            \"deleteAt\": null,\n            \"product\": {\n                \"id\": 3,\n                \"uuid\": \"1a7f3ceb-379d-4ac7-a42f-fcff0076fd97\",\n                \"name\": \"Sleek Metal Tuna\",\n                \"description\": \"Lead\",\n                \"price\": 891.97,\n                \"quantity\": 36,\n                \"createdAt\": \"2024-07-12T12:56:48.168Z\",\n                \"updatedAt\": null,\n                \"deleteAt\": null\n            }\n        },\n        {\n            \"id\": 2,\n            \"quantity\": 2,\n            \"productId\": 1,\n            \"orderId\": 1,\n            \"createdAt\": \"2024-07-12T13:09:11.178Z\",\n            \"updatedAt\": \"2024-07-12T13:09:11.178Z\",\n            \"deleteAt\": null,\n            \"product\": {\n                \"id\": 1,\n                \"uuid\": \"67f6f328-6de7-4c70-a71c-ee716e96b838\",\n                \"name\": \"Sleek Cotton Shoes\",\n                \"description\": \"Direct\",\n                \"price\": 12.29,\n                \"quantity\": 370,\n                \"createdAt\": \"2024-07-12T12:56:48.168Z\",\n                \"updatedAt\": null,\n                \"deleteAt\": null\n            }\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ORDER_API}}/orders",
+							"host": [
+								"{{ORDER_API}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successfully",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ORDER_API}}/orders",
+									"host": [
+										"{{ORDER_API}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "879"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"36f-r4yb2gASz6FXPPKRbyd7QvYQIw0\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Jul 2024 14:34:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"uuid\": \"2619e0e7-dc3c-40bd-991e-d9424e807251\",\n        \"createdAt\": \"2024-07-12T13:09:11.178Z\",\n        \"updatedAt\": \"2024-07-12T13:09:11.178Z\",\n        \"deleteAt\": null,\n        \"orderItems\": [\n            {\n                \"id\": 1,\n                \"quantity\": 3,\n                \"productId\": 3,\n                \"orderId\": 1,\n                \"createdAt\": \"2024-07-12T13:09:11.178Z\",\n                \"updatedAt\": \"2024-07-12T13:09:11.178Z\",\n                \"deleteAt\": null,\n                \"product\": {\n                    \"id\": 3,\n                    \"uuid\": \"1a7f3ceb-379d-4ac7-a42f-fcff0076fd97\",\n                    \"name\": \"Sleek Metal Tuna\",\n                    \"description\": \"Lead\",\n                    \"price\": 891.97,\n                    \"quantity\": 36,\n                    \"createdAt\": \"2024-07-12T12:56:48.168Z\",\n                    \"updatedAt\": null,\n                    \"deleteAt\": null\n                }\n            },\n            {\n                \"id\": 2,\n                \"quantity\": 2,\n                \"productId\": 1,\n                \"orderId\": 1,\n                \"createdAt\": \"2024-07-12T13:09:11.178Z\",\n                \"updatedAt\": \"2024-07-12T13:09:11.178Z\",\n                \"deleteAt\": null,\n                \"product\": {\n                    \"id\": 1,\n                    \"uuid\": \"67f6f328-6de7-4c70-a71c-ee716e96b838\",\n                    \"name\": \"Sleek Cotton Shoes\",\n                    \"description\": \"Direct\",\n                    \"price\": 12.29,\n                    \"quantity\": 370,\n                    \"createdAt\": \"2024-07-12T12:56:48.168Z\",\n                    \"updatedAt\": null,\n                    \"deleteAt\": null\n                }\n            }\n        ]\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Api Gateway",
+			"item": [
+				{
+					"name": "Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Extract and save token from cookie\", function () {",
+									"    var cookies = pm.cookies.toObject();",
+									"    var token = cookies.token; ",
+									"    pm.environment.set(\"AUTH_TOKEN\", token);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_GATEWAY}}/login",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"user\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_GATEWAY}}/login",
+									"host": [
+										"{{API_GATEWAY}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Set-Cookie",
+									"value": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJleHAiOjE3MjA3OTcwODB9.sVD58uAEWFSELHnNMX8iHG77A2D6qGlZCgyapLa3t34; Expires=Fri, 12 Jul 2024 15:11:20 GMT"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 12 Jul 2024 15:06:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "GetProducts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GATEWAY}}/products",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOrders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_GATEWAY}}/orders",
+							"host": [
+								"{{API_GATEWAY}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{AUTH_TOKEN}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

@@ -29,6 +29,10 @@ export class ProductModel {
     return this.entity.id;
   }
 
+  setQuantity(quantity: number) {
+    this.entity.quantity = quantity;
+  }
+
   public setEntity(data: Product) {
     this.entity = {
       uuid: uuidv4(),
